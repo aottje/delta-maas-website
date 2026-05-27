@@ -22,7 +22,10 @@ type Blog = {
   body: string[];
 };
 
-const ACCESS_KEY = "01241262-f2ac-4884-8f2b-dd675ed041d8";
+const ACCESS_KEY = "a86b107a-3ef4-4dc5-a5f3-1b71b53ce275";
+
+const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61590267518503";
+const INSTAGRAM_URL = "https://www.instagram.com/deltaenmaasvastgoed/";
 
 const properties: Property[] = [
   {
@@ -295,10 +298,15 @@ export default function Home() {
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
         body: formData,
       });
 
-      if (!response.ok) throw new Error("Formulier niet verzonden");
+      const result = await response.json();
+
+      if (!result.success) throw new Error("Formulier niet verzonden");
 
       setContactStatus("success");
       e.currentTarget.reset();
@@ -425,6 +433,11 @@ export default function Home() {
             <p>📍 Rotterdam, Nederland</p>
             <p>✉️ info@deltaenmaas.nl</p>
           </div>
+
+          <div className="mt-7">
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.16em] text-[#d6a751]">Volg ons</p>
+            <SocialLinks compact />
+          </div>
           <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6">
             <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#d6a751]">Professionele contactflow</p>
             <p className="mt-3 text-sm leading-7 text-slate-300">
@@ -470,6 +483,35 @@ export default function Home() {
       </div>
 
     </section>
+  );
+
+
+  const SocialLinks = ({ compact = false }: { compact?: boolean }) => (
+    <div className={`flex items-center gap-3 ${compact ? "" : "mt-6"}`}>
+      <a
+        href={FACEBOOK_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook Delta & Maas Vastgoed"
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:border-[#d6a751] hover:bg-[#d6a751] hover:text-[#071426]"
+      >
+        <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true">
+          <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.91h-2.34V22C18.34 21.24 22 17.08 22 12.06Z" />
+        </svg>
+      </a>
+
+      <a
+        href={INSTAGRAM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram Delta & Maas Vastgoed"
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:border-[#d6a751] hover:bg-[#d6a751] hover:text-[#071426]"
+      >
+        <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true">
+          <path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />
+        </svg>
+      </a>
+    </div>
   );
 
   const Footer = () => (
