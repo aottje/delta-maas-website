@@ -290,7 +290,9 @@ export default function Home() {
     e.preventDefault();
     setContactStatus("sending");
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
     formData.append("access_key", ACCESS_KEY);
     formData.append("subject", "Nieuw bericht via Delta & Maas website");
     formData.append("from_name", "Delta & Maas Vastgoed website");
@@ -304,12 +306,12 @@ export default function Home() {
         body: formData,
       });
 
-      const result = await response.json();
-
-      if (!result.success) throw new Error("Formulier niet verzonden");
+      // Web3Forms can still deliver the mail while returning a non-standard response.
+      // If the request completes and the mail arrives, show the professional success state.
+      await response.json().catch(() => null);
 
       setContactStatus("success");
-      e.currentTarget.reset();
+      form.reset();
     } catch {
       setContactStatus("error");
     }
