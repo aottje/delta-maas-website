@@ -146,7 +146,7 @@ const services = [
     text: "Wij vinden de juiste locaties met maximale potentie.",
   },
   {
-    icon: "↗",
+    icon: "→",
     title: "Ontwikkeling",
     text: "Van concept tot realisatie: wij creëren waarde.",
   },
@@ -158,7 +158,12 @@ const services = [
 ];
 
 export default function Home() {
-  const [page, setPage] = useState<Page>("home");
+  const [page, setPage] = useState<Page>(() => {
+    if (typeof window === "undefined") return "home";
+    const hash = window.location.hash.replace("#", "");
+    if (hash === "aanbod" || hash === "blogs") return hash;
+    return "home";
+  });
   const [activeBlog, setActiveBlog] = useState<Blog>(blogs[0]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -173,6 +178,24 @@ export default function Home() {
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onPopState = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash === "aanbod" || hash === "blogs") {
+        setPage(hash);
+        setMobileOpen(false);
+        window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 60);
+      } else {
+        setPage("home");
+        setMobileOpen(false);
+        window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 60);
+      }
+    };
+
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
   useEffect(() => {
@@ -219,9 +242,19 @@ export default function Home() {
     return () => window.clearInterval(timer);
   }, [page]);
 
+  const updateBrowserPage = (nextPage: Page, hash: string) => {
+    if (typeof window !== "undefined") {
+      window.history.pushState({ page: nextPage }, "", hash);
+    }
+    setPage(nextPage);
+  };
+
   const goHome = () => {
     setMobileOpen(false);
     setPendingScroll("top");
+    if (typeof window !== "undefined") {
+      window.history.pushState({ page: "home" }, "", window.location.pathname);
+    }
     setPage("home");
   };
 
@@ -233,20 +266,20 @@ export default function Home() {
 
   const goAanbod = () => {
     setMobileOpen(false);
-    setPage("aanbod");
+    updateBrowserPage("aanbod", "#aanbod");
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 60);
   };
 
   const goBlogs = () => {
     setMobileOpen(false);
-    setPage("blogs");
+    updateBrowserPage("blogs", "#blogs");
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 60);
   };
 
   const openBlog = (blog: Blog) => {
     setActiveBlog(blog);
     setMobileOpen(false);
-    setPage("blog");
+    updateBrowserPage("blog", `#blog-${blog.slug}`);
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 60);
   };
 
@@ -436,7 +469,6 @@ export default function Home() {
         </form>
       </div>
 
-      <Footer />
     </section>
   );
 
@@ -626,7 +658,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/erasmusbrug.jpg')" }} />
         <div className="absolute inset-0 bg-gradient-to-r from-[#071426]/78 via-[#071426]/42 to-[#071426]/10" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#071426]/15 via-transparent to-[#071426]/25" />
-        <div className="absolute inset-y-0 left-0 w-[55%] bg-[radial-gradient(circle_at_25%_55%,rgba(255,255,255,0.46),rgba(255,255,255,0.16)_34%,rgba(255,255,255,0)_66%)]" />
+        <div className="absolute inset-y-0 left-0 hidden w-[55%] bg-[radial-gradient(circle_at_25%_55%,rgba(255,255,255,0.32),rgba(255,255,255,0.10)_34%,rgba(255,255,255,0)_66%)] md:block" />
 
         <div className="relative z-10 mx-auto flex min-h-[760px] w-full max-w-[1760px] flex-col justify-center px-5 pb-20 pt-40 md:px-8 lg:px-14 2xl:px-20">
           <div className="max-w-[760px] animate-[fadeIn_0.9s_ease-out]">
@@ -650,7 +682,7 @@ export default function Home() {
       </section>
 
       <section id="diensten" className="bg-white px-5 py-20 md:px-8 lg:px-14 2xl:px-20">
-        <div className="mx-auto grid w-full max-w-[900px] grid-cols-2 gap-5">
+        <div className="mx-auto grid w-full max-w-[1760px] grid-cols-2 gap-5 xl:grid-cols-4">
           {services.map((service) => (
             <div key={service.title} className="min-h-[210px] rounded-xl border border-slate-200 bg-white px-5 py-7 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg md:px-8">
               <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#d6a751]/10 text-3xl leading-none text-[#d6a751]">
@@ -727,9 +759,13 @@ export default function Home() {
           <p className="mb-4 text-sm font-extrabold uppercase tracking-[0.25em] text-[#d6a751]">Regio</p>
           <h2 className="font-serif text-4xl font-bold text-[#071426]">Actief in Rotterdam en omgeving.</h2>
           <div className="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-            <iframe title="Rotterdam kaart" src="https://www.openstreetmap.org/export/embed.html?bbox=4.35%2C51.86%2C4.58%2C51.98&layer=mapnik" className="h-[480px] w-full md:h-[600px]" loading="lazy" />
+            <iframe title="Rotterdam kaart" src="https://www.openstreetmap.org/export/embed.html?bbox=4.35%2C51.86%2C4.58%2C51.98&layer=mapnik" className="h-[420px] w-full md:h-[560px]" loading="lazy" />
           </div>
         </div>
+      </section>
+
+      <section className="bg-[#071426] px-5 pb-12 text-white md:px-8 lg:px-14 2xl:px-20">
+        <Footer />
       </section>
 
       <Whatsapp />
