@@ -29,37 +29,37 @@ const INSTAGRAM_URL = "https://www.instagram.com/deltaenmaasvastgoed/";
 
 const properties: Property[] = [
   {
-    title: "Coming soon",
+    title: "Binnenkort beschikbaar",
     location: "Rotterdam Centrum",
     image:
       "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    title: "Coming soon",
+    title: "Binnenkort beschikbaar",
     location: "Kralingen",
     image:
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    title: "Coming soon",
+    title: "Binnenkort beschikbaar",
     location: "Kop van Zuid",
     image:
       "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    title: "Coming soon",
+    title: "Binnenkort beschikbaar",
     location: "Schiedam",
     image:
       "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    title: "Coming soon",
+    title: "Binnenkort beschikbaar",
     location: "Delfshaven",
     image:
       "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1400&auto=format&fit=crop",
   },
   {
-    title: "Coming soon",
+    title: "Binnenkort beschikbaar",
     location: "Zuid-Holland",
     image:
       "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1400&auto=format&fit=crop",
@@ -414,7 +414,7 @@ export default function Home() {
         <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#d6a751]">
           {item.location}
         </p>
-        <h3 className="mt-2 text-3xl font-extrabold">{item.title}</h3>
+        <h3 className="mt-2 text-2xl font-extrabold">{item.title}</h3>
         <p className="mt-4 text-base leading-7 text-slate-600">
           Nieuwe vastgoedkans wordt binnenkort toegevoegd.
         </p>
@@ -432,7 +432,6 @@ export default function Home() {
             Heeft u een vraag, wilt u samenwerken of meer informatie ontvangen? Laat uw gegevens achter en wij nemen zorgvuldig contact met u op.
           </p>
           <div className="mt-8 space-y-4 text-slate-200">
-            <p>📍 Rotterdam, Nederland</p>
             <p>✉️ info@deltaenmaas.nl</p>
           </div>
 
@@ -539,7 +538,7 @@ export default function Home() {
         </div>
         <div>
           <h4 className="mb-4 text-sm font-extrabold uppercase tracking-[0.14em] text-[#d6a751]">Contact</h4>
-          <p className="text-base leading-8 text-slate-300">info@deltaenmaas.nl<br />Rotterdam, Nederland</p>
+          <p className="text-base leading-8 text-slate-300">info@deltaenmaas.nl</p>
         </div>
       </div>
     </footer>
@@ -699,10 +698,10 @@ export default function Home() {
       <Header />
 
       <section id="home" className="relative min-h-[840px] overflow-hidden bg-[#071426] text-white">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/erasmusbrug.jpg')" }} />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#071426]/78 via-[#071426]/42 to-[#071426]/10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#071426]/15 via-transparent to-[#071426]/25" />
-        <div className="absolute inset-y-0 left-0 hidden w-[55%] bg-[radial-gradient(circle_at_25%_55%,rgba(255,255,255,0.32),rgba(255,255,255,0.10)_34%,rgba(255,255,255,0)_66%)] md:block" />
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/erasmusbrug.jpg')" }} />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#071426]/48 via-[#071426]/22 to-[#071426]/5" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#071426]/5 via-transparent to-[#071426]/14" />
+        <div className="absolute inset-y-0 left-0 hidden w-[55%] bg-[radial-gradient(circle_at_25%_55%,rgba(255,255,255,0.18),rgba(255,255,255,0.06)_34%,rgba(255,255,255,0)_66%)] md:block" />
 
         <div className="relative z-10 mx-auto flex min-h-[760px] w-full max-w-[1760px] flex-col justify-center px-5 pb-20 pt-40 md:px-8 lg:px-14 2xl:px-20">
           <div className="max-w-[760px] animate-[fadeIn_0.9s_ease-out]">
@@ -772,7 +771,7 @@ export default function Home() {
             </button>
           </div>
           <div className="overflow-hidden rounded-xl shadow-lg">
-            <img src="/rotterdam-skyline.jpg" alt="Rotterdam skyline" className="h-[360px] w-full object-cover md:h-[420px]" loading="lazy" />
+            <img src="/rotterdam-skyline.jpg" alt="Rotterdam skyline" className="h-[360px] w-full object-cover object-center md:h-[420px]" loading="lazy" />
           </div>
         </div>
       </section>
@@ -801,7 +800,7 @@ export default function Home() {
       <section className="bg-[#f7f8fb] px-5 py-20 md:px-8 lg:px-14 2xl:px-20">
         <div className="mx-auto max-w-[1760px]">
           <p className="mb-4 text-sm font-extrabold uppercase tracking-[0.25em] text-[#d6a751]">Regio</p>
-          <h2 className="font-serif text-4xl font-bold text-[#071426]">Actief in Rotterdam en omgeving.</h2>
+          <h2 className="font-serif text-4xl font-bold text-[#071426]">Actief in vastgoed en gebiedsontwikkeling.</h2>
           <div className="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
             <iframe title="Rotterdam kaart" src="https://www.openstreetmap.org/export/embed.html?bbox=4.35%2C51.86%2C4.58%2C51.98&layer=mapnik" className="h-[420px] w-full md:h-[560px]" loading="lazy" />
           </div>
